@@ -297,8 +297,8 @@ body.rot90 .leaderboard {
   flex: 1; padding: 8px 8px 4px; border-radius: 10px;
 }
 body.rot90 .leaderboard h3 { font-size: 0.7rem; margin-bottom: 3px; }
-body.rotated #lbModeLabel { font-size: 0.6rem; margin-bottom: 4px; display: block; }
-body.rotated #lbList {
+body.rot90 #lbModeLabel { font-size: 0.6rem; margin-bottom: 4px; display: block; }
+body.rot90 #lbList {
   display: flex; flex-direction: column; gap: 4px;
   max-height: none; overflow: visible;
 }
@@ -310,7 +310,7 @@ body.rot90 .lb-row {
 body.rot90 .lb-rank { font-size: 0.75rem; flex-shrink: 0; }
 body.rot90 .lb-name { font-size: 0.62rem; flex: 1; overflow: hidden; text-overflow: ellipsis; }
 body.rot90 .lb-val { font-size: 0.58rem; flex-shrink: 0; }
-body.rotated #lbNote { 
+body.rot90 #lbNote { 
   font-size: 0.5rem; 
   color: rgba(255,255,255,0.5);
   margin-top: 4px;
@@ -342,7 +342,7 @@ body.rot90 .header {
 }
 body.rot90 .header-stats { gap: 5px; flex-wrap: nowrap; }
 body.rot90 .stat { font-size: 0.62rem; padding: 2px 5px; }
-body.rotated #modeBadge { font-size: 0.62rem; }
+body.rot90 #modeBadge { font-size: 0.62rem; }
 body.rot90 .hbtn { font-size: 0.62rem; padding: 4px 8px; }
 body.rot90 .header-logo-img-wrap img { height: 36px; }
 body.rot90 .header-memotest-bar { font-size: 0.52rem; padding: 1px 6px; }
@@ -356,97 +356,58 @@ body.rot90 .header-memotest-bar { font-size: 0.52rem; padding: 1px 6px; }
   html, body { height: 100%; overflow: hidden; }
   body { display: flex; flex-direction: column; overflow: hidden; }
 
-  /* ── HEADER mobile: logo izq + 3 filas der ── */
-  .header {
-    padding: 5px 8px; gap: 6px; flex-shrink: 0;
-    align-items: stretch; flex-wrap: nowrap;
-  }
-  .header-logo-wrap {
-    flex-shrink: 0; padding: 3px !important;
-    border-radius: 8px !important; min-width: 0 !important;
-    align-self: stretch;
-  }
-  .header-logo-img-wrap { padding: 4px 5px 2px !important; }
-  .header-logo-img-wrap img { height: 40px !important; }
-  .header-memotest-bar { font-size: 0.44rem !important; padding: 1px 5px !important; }
-  /* header-right: 3 filas: badge / stats / botones */
-  .header-right {
-    flex: 1; flex-direction: column !important; gap: 3px;
-    min-width: 0; padding-bottom: 0 !important; justify-content: center;
-  }
-  /* Fila 1: badge modo */
+  /* ── HEADER ── */
+  .header { padding: 5px 8px; gap: 6px; flex-shrink: 0; align-items: stretch; flex-wrap: nowrap; }
+  .header-logo-wrap { flex-shrink: 0; padding: 3px !important; border-radius: 8px !important; min-width: 0 !important; align-self: stretch; }
+  .header-logo-img-wrap { padding: 3px 4px 1px !important; }
+  .header-logo-img-wrap img { height: 32px !important; }
+  .header-memotest-bar { font-size: 0.4rem !important; padding: 1px 4px !important; }
+  .header-right { flex: 1; flex-direction: column !important; gap: 3px; min-width: 0; padding-bottom: 0 !important; justify-content: center; }
+  /* Fila 1: badge */
   .header-top { display: flex !important; align-items: center; }
-  #modeBadge { font-size: 0.62rem !important; padding: 2px 7px; }
+  #modeBadge { font-size: 0.6rem !important; padding: 2px 6px; }
   /* Fila 2: timer + mov + pares */
   .header-stats { gap: 3px; flex-wrap: nowrap; align-items: center; }
-  .stat { font-size: 0.6rem; padding: 2px 5px; }
+  .stat { font-size: 0.58rem; padding: 2px 4px; }
   .spacer { display: none !important; }
   /* Fila 3: botones */
   .header-bottom { display: flex !important; align-items: center; gap: 4px; flex-wrap: nowrap; }
-  .hbtn { font-size: 0.58rem; padding: 3px 7px; white-space: nowrap; flex-shrink: 0; }
-  .hbtn.fs { padding: 3px 6px; font-size: 0.72rem; }
+  .hbtn { font-size: 0.56rem; padding: 3px 6px; white-space: nowrap; flex-shrink: 0; }
+  .hbtn.fs { padding: 3px 5px; font-size: 0.7rem; }
 
-  /* ── MAIN: column, sidebar-left top, grid center, sidebar-right bottom ── */
-  .main {
-    flex-direction: column; gap: 5px; flex: 1;
-    min-height: 0; overflow: hidden; padding: 0 6px 6px;
-  }
+  /* ── MAIN ── */
+  .main { flex-direction: column; gap: 4px; flex: 1; min-height: 0; overflow: hidden; padding: 0 6px 6px; }
 
-  /* ── RANKING mobile: ancho completo, 3 columnas, max 12 ── */
-  .sidebar-left {
-    width: 100% !important; flex-direction: column;
-    margin-top: 0; flex-shrink: 0;
-  }
-  .leaderboard { width: 100%; padding: 6px 8px 5px; border-radius: 8px; box-sizing: border-box; }
-  .lb-header-line { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; flex-wrap: wrap; }
-  .lb-header-line h3 { font-size: 0.65rem; margin-bottom: 0; }
-  .lb-header-line #lbModeLabel { font-size: 0.6rem; margin: 0; }
-  #lbList {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3px 8px;
-  }
-  .lb-row {
-    display: flex; gap: 2px; align-items: center;
-    font-size: 0.56rem; overflow: hidden;
-  }
+  /* ── RANKING ── */
+  .sidebar-left { width: 100% !important; flex-direction: column; margin-top: 0; flex-shrink: 0; }
+  .leaderboard { width: 100%; padding: 6px 8px 4px; border-radius: 8px; box-sizing: border-box; position: relative; }
+  /* Título y modo en una línea */
+  .lb-header-line { display: flex; align-items: center; gap: 6px; flex-wrap: nowrap; margin-bottom: 4px; }
+  .lb-header-line h3 { font-size: 0.65rem; margin-bottom: 0; flex-shrink: 0; }
+  .lb-header-line #lbModeLabel { font-size: 0.6rem; margin: 0; flex-shrink: 0; }
+  /* Jugadores en 3 columnas */
+  #lbList { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px 8px; }
+  .lb-row { display: flex; gap: 2px; align-items: center; font-size: 0.56rem; overflow: hidden; }
   .lb-rank { font-size: 0.62rem; flex-shrink: 0; }
   .lb-name { font-size: 0.55rem; overflow: hidden; text-overflow: ellipsis; flex: 1; min-width: 0; white-space: nowrap; }
   .lb-val { font-size: 0.5rem; flex-shrink: 0; white-space: nowrap; }
-  #lbNote {
-    display: block !important;
-    font-size: 0.5rem; color: rgba(255,255,255,0.5);
-    margin-top: 4px; text-align: center; line-height: 1.3;
-  }
+  /* Nota de criterio: pegada al cuadro, abajo a la izquierda */
+  #lbNote { display: block !important; font-size: 0.48rem; color: rgba(255,255,255,0.5); margin-top: 3px; text-align: left; line-height: 1.3; padding: 0; }
 
-  /* ── GRID: center, fills available space ── */
-  .grid-wrap {
-    flex: 1; min-height: 0; min-width: 0; overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
-  }
+  /* ── GRID ── */
+  .grid-wrap { flex: 1; min-height: 0; min-width: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; }
   .grid { overflow: visible; }
 
-  /* ── LOGOS: horizontal strip bottom ── */
-  .sidebar-right {
-    width: 100% !important; flex-direction: row !important;
-    justify-content: center; gap: 4px; flex-shrink: 0;
-    max-height: 44px; overflow-x: auto; padding: 2px 0;
-  }
-  .side-card {
-    width: 36px !important; height: 36px !important;
-    border-radius: 5px; flex-shrink: 0;
-  }
+  /* ── LOGOS ── */
+  .sidebar-right { width: 100% !important; flex-direction: row !important; justify-content: center; gap: 4px; flex-shrink: 0; max-height: 44px; overflow-x: auto; padding: 2px 0; }
+  .side-card { width: 36px !important; height: 36px !important; border-radius: 5px; flex-shrink: 0; }
 
-  /* ── WIN MSG ── */
+  /* ── MISC ── */
   .win-msg { font-size: 0.7rem; padding: 5px 14px; top: 4px; }
-
-  /* ── MODALS ── */
   .modal-box { padding: 20px 16px; gap: 10px; max-width: 92vw; }
   .modal-logo { height: 52px; }
   .modal-title { font-size: 1rem; }
   .modal-btn { font-size: 0.8rem; padding: 8px 16px; }
-
-  /* ── STREAK TOAST ── */
   .streak-toast { font-size: 0.8rem; padding: 10px 16px; white-space: normal; text-align: center; max-width: 90vw; }
 }
 
@@ -599,9 +560,9 @@ body.rot270 .header-memotest-bar { font-size: 0.52rem; padding: 1px 6px; }
         <div id="lbModeLabel" style="color:rgba(255,255,255,0.7);font-size:0.62rem;font-family:Arial;text-align:center;margin-top:-4px;margin-bottom:4px;flex-shrink:0;letter-spacing:0.5px;"></div>
       </div>
       <div class="lb-rows" id="lbList"></div>
-    </div>
-    <div style="padding: 5px 4px 0; font-family: Arial; font-size: 0.58rem; color: rgba(255,255,255,0.5); line-height: 1.4; text-align: center;">
-      Criterio: más pares -&gt; menos movimientos -&gt; menor tiempo
+      <div id="lbNote" style="padding: 4px 4px 0; font-family: Arial; font-size: 0.58rem; color: rgba(255,255,255,0.5); line-height: 1.4; text-align: center;">
+      Desempata por menos movimientos y luego por menor tiempo.
+      </div>
     </div>
   </div>
 
