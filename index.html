@@ -78,9 +78,7 @@ body {
 .header-top {
   display: flex; align-items: center; padding-top: 0;
 }
-.header-bottom {
-  display: flex; align-items: center; gap: 8px;
-}
+.header-bottom { display: none; align-items: center; gap: 8px; }
 .header-logo-wrap {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   background: white; border-radius: 12px;
@@ -379,6 +377,8 @@ body.rot90 .header-memotest-bar { font-size: 0.52rem; padding: 1px 6px; }
   .spacer { display: none !important; }
   /* Fila 3: botones alineados a la derecha */
   .header-bottom { display: flex !important; align-items: center; gap: 4px; flex-wrap: nowrap; justify-content: flex-end; }
+  /* Hide desktop buttons from stats row on mobile */
+  .header-stats .hbtn.fs, .header-stats .nueva-partida-desktop { display: none !important; }
   .hbtn { font-size: 0.56rem; padding: 3px 6px; white-space: nowrap; flex-shrink: 0; }
   .hbtn.fs { padding: 3px 5px; font-size: 0.7rem; }
 
@@ -581,12 +581,16 @@ body.rot270 .header-memotest-bar { font-size: 0.52rem; padding: 1px 6px; }
       <div class="stat">Pares: <span id="pairs">0</span>/<span id="totalPairs">—</span></div>
       <div class="spacer"></div>
       <button class="hbtn nueva-partida-desktop" onclick="askNewGame()">&#x1F3B2; Nueva Partida</button>
-    </div>
-    <!-- Fila 3: rotar + fullscreen + reset -->
-    <div class="header-bottom">
       <button class="hbtn fs" onclick="toggleRotate()" id="rotBtn" title="Rotar pantalla">&#x21BA;</button>
       <button class="hbtn fs" onclick="toggleFullscreen()" id="fsBtn" title="Pantalla completa">&#x26F6;</button>
       <button class="hbtn fs" onclick="askFullReset()" id="resetBtn" title="Reiniciar todo">&#x1F504;</button>
+    </div>
+    <!-- Fila 3 mobile: botones -->
+    <div class="header-bottom">
+      <button class="hbtn nueva-partida-desktop" onclick="askNewGame()" style="display:none">&#x1F3B2; Nueva Partida</button>
+      <button class="hbtn fs rotbtn-mobile" onclick="toggleRotate()" title="Rotar">&#x21BA;</button>
+      <button class="hbtn fs" onclick="toggleFullscreen()" title="Pantalla completa">&#x26F6;</button>
+      <button class="hbtn fs" onclick="askFullReset()" title="Reiniciar todo">&#x1F504;</button>
     </div>
   </div>
 </div>
