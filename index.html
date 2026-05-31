@@ -460,6 +460,34 @@ body.rot270 .stat { font-size: 0.62rem; padding: 2px 5px; }
 body.rot270 .hbtn { font-size: 0.62rem; padding: 4px 8px; }
 body.rot270 .header-logo-img-wrap img { height: 36px; }
 body.rot270 .header-memotest-bar { font-size: 0.52rem; padding: 1px 6px; }
+
+/* ── BOTÓN ROTAR FLOTANTE ── */
+#rotBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  border: 2px solid rgba(255,255,255,0.4);
+  color: white;
+  font-size: 1.4rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: background 0.2s, transform 0.3s;
+  backdrop-filter: blur(4px);
+  padding: 0;
+  line-height: 1;
+}
+#rotBtn:hover { background: rgba(255,255,255,0.35); }
+/* Contrarrota el botón según la rotación del body para que siempre quede derecho */
+body.rot90  #rotBtn { transform: rotate(-90deg); }
+body.rot180 #rotBtn { transform: rotate(-180deg); }
+body.rot270 #rotBtn { transform: rotate(-270deg); }
 </style>
 </head>
 <body>
@@ -541,7 +569,6 @@ body.rot270 .header-memotest-bar { font-size: 0.52rem; padding: 1px 6px; }
       <div class="stat">Mov: <span id="moves">0</span></div>
       <div class="stat">Pares: <span id="pairs">0</span>/<span id="totalPairs">—</span></div>
       <div class="spacer"></div>
-      <button class="hbtn fs" onclick="toggleRotate()" id="rotBtn" title="Rotar pantalla">&#x21BA;</button>
       <button class="hbtn fs" onclick="toggleFullscreen()" id="fsBtn" title="Pantalla completa">&#x26F6;</button>
       <button class="hbtn fs" onclick="askFullReset()" id="resetBtn" title="Reiniciar todo">&#x1F504;</button>
     </div>
@@ -884,7 +911,6 @@ function toggleRotate() {
   // Update button icon — show next action
   const btn = document.getElementById('rotBtn');
   const isPortrait = rotStep === 1 || rotStep === 3;
-  btn.textContent = rotStep === 0 ? '↺' : rotStep === 1 ? '↺' : rotStep === 2 ? '↺' : '↺';
   // Add tooltip showing current orientation
   const labels = ['0°', '90°', '180°', '270°'];
   btn.title = `Rotación: ${labels[rotStep]} (clic para girar)`;
@@ -915,9 +941,7 @@ document.addEventListener('fullscreenchange', () => {
 
 // ── ESC ──
 document.addEventListener('keydown', e => {
-  const noModals = ['modalWin','modalConfirm','modalMode'].every(id =>
-    document.getElementById(id).classList.contains('hidden'));
-  if (e.key === 'Escape' && noModals && !document.fullscreenElement) {
+  if (e.key === 'Escape' && !document.fullscreenElement) {
     e.preventDefault(); askFullReset();
   }
 });
@@ -962,10 +986,6 @@ function askFullReset() {
   document.getElementById('confirmAction').onclick = () => { closeConfirm(); fullReset(); };
   document.getElementById('modalConfirm').classList.remove('hidden');
 }
-function askFullReset() {
-  showConfirm('¿Reiniciar completamente?<br>Se perderá el progreso y el ranking.', fullReset);
-}
-
 function fullReset() {
   currentMode = null;
   moves=0; matched=0; flipped=[]; lock=false; logoStreakCount=0; lastMatchWasLogo=false; lastResult={};
@@ -1269,5 +1289,8 @@ function checkWin() {
 renderLeaderboard();
 // Show mode modal on load
 </script>
+<!-- Botón rotar flotante - siempre esquina inferior derecha física -->
+<button id="rotBtn" onclick="toggleRotate()" title="Rotar pantalla" aria-label="Rotar pantalla">&#x21BB;</button>
+
 </body>
 </html>
