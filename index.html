@@ -357,35 +357,35 @@ body.rot90 .header-memotest-bar { font-size: 0.52rem; padding: 1px 6px; }
   html, body { height: 100%; overflow: hidden; }
   body { display: flex; flex-direction: column; overflow: hidden; }
 
-  /* ── HEADER mobile: 2 filas ── */
+  /* ── HEADER mobile: logo izq + 3 filas der ── */
   .header {
-    padding: 5px 8px; gap: 4px; flex-shrink: 0;
-    align-items: stretch; flex-wrap: wrap;
+    padding: 5px 8px; gap: 6px; flex-shrink: 0;
+    align-items: stretch; flex-wrap: nowrap;
   }
-  /* Fila 1: logo + stats */
-  /* Fila 2: botones */
   .header-logo-wrap {
     flex-shrink: 0; padding: 3px !important;
     border-radius: 8px !important; min-width: 0 !important;
-    align-self: center;
+    align-self: stretch;
   }
   .header-logo-img-wrap { padding: 4px 5px 2px !important; }
-  .header-logo-img-wrap img { height: 28px !important; }
-  .header-memotest-bar { font-size: 0.44rem !important; padding: 1px 4px !important; }
-  /* header-right: columna con stats arriba y botones abajo */
+  .header-logo-img-wrap img { height: 40px !important; }
+  .header-memotest-bar { font-size: 0.44rem !important; padding: 1px 5px !important; }
+  /* header-right: 3 filas: badge / stats / botones */
   .header-right {
     flex: 1; flex-direction: column !important; gap: 3px;
-    min-width: 0; padding-bottom: 0 !important;
+    min-width: 0; padding-bottom: 0 !important; justify-content: center;
   }
-  .header-top { display: flex !important; align-items: center; gap: 4px; }
-  #modeBadge { font-size: 0.6rem !important; padding: 2px 6px; }
+  /* Fila 1: badge modo */
+  .header-top { display: flex !important; align-items: center; }
+  #modeBadge { font-size: 0.62rem !important; padding: 2px 7px; }
+  /* Fila 2: timer + mov + pares */
   .header-stats { gap: 3px; flex-wrap: nowrap; align-items: center; }
   .stat { font-size: 0.6rem; padding: 2px 5px; }
-  .spacer { flex: 1; }
-  /* Botones en fila inferior */
-  .header-bottom { display: flex; align-items: center; gap: 4px; }
-  .hbtn { font-size: 0.58rem; padding: 4px 8px; white-space: nowrap; flex-shrink: 0; }
-  .hbtn.fs { padding: 4px 6px; font-size: 0.75rem; }
+  .spacer { display: none !important; }
+  /* Fila 3: botones */
+  .header-bottom { display: flex !important; align-items: center; gap: 4px; flex-wrap: nowrap; }
+  .hbtn { font-size: 0.58rem; padding: 3px 7px; white-space: nowrap; flex-shrink: 0; }
+  .hbtn.fs { padding: 3px 6px; font-size: 0.72rem; }
 
   /* ── MAIN: column, sidebar-left top, grid center, sidebar-right bottom ── */
   .main {
@@ -393,26 +393,32 @@ body.rot90 .header-memotest-bar { font-size: 0.52rem; padding: 1px 6px; }
     min-height: 0; overflow: hidden; padding: 0 6px 6px;
   }
 
-  /* ── RANKING: ancho completo, 3 columnas ── */
+  /* ── RANKING mobile: ancho completo, 3 columnas, max 12 ── */
   .sidebar-left {
     width: 100% !important; flex-direction: column;
     margin-top: 0; flex-shrink: 0;
   }
-  .leaderboard { width: 100%; padding: 6px 8px 4px; border-radius: 8px; box-sizing: border-box; }
-  .leaderboard h3 { font-size: 0.65rem; margin-bottom: 2px; }
-  #lbModeLabel { font-size: 0.58rem; margin-bottom: 4px; display: block; }
+  .leaderboard { width: 100%; padding: 6px 8px 5px; border-radius: 8px; box-sizing: border-box; }
+  /* Título + modo en una sola línea */
+  .leaderboard h3 { font-size: 0.65rem; margin-bottom: 0; display: inline; }
+  #lbModeLabel {
+    font-size: 0.6rem; display: inline !important;
+    margin-left: 6px; margin-bottom: 0;
+    vertical-align: middle;
+  }
+  .lb-header-line { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; flex-wrap: wrap; }
   #lbList {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 3px 6px;
+    gap: 3px 8px;
   }
   .lb-row {
-    display: flex; gap: 3px; align-items: center;
-    font-size: 0.56rem; white-space: nowrap; overflow: hidden;
+    display: flex; gap: 2px; align-items: center;
+    font-size: 0.56rem; overflow: hidden;
   }
-  .lb-rank { font-size: 0.65rem; flex-shrink: 0; }
-  .lb-name { font-size: 0.56rem; overflow: hidden; text-overflow: ellipsis; flex: 1; min-width: 0; }
-  .lb-val { font-size: 0.52rem; flex-shrink: 0; }
+  .lb-rank { font-size: 0.62rem; flex-shrink: 0; }
+  .lb-name { font-size: 0.55rem; overflow: hidden; text-overflow: ellipsis; flex: 1; min-width: 0; white-space: nowrap; }
+  .lb-val { font-size: 0.5rem; flex-shrink: 0; white-space: nowrap; }
   #lbNote {
     display: block !important;
     font-size: 0.5rem; color: rgba(255,255,255,0.5);
@@ -594,7 +600,7 @@ body.rot270 .header-memotest-bar { font-size: 0.52rem; padding: 1px 6px; }
   <!-- Ranking -->
   <div class="sidebar-left">
     <div class="leaderboard">
-      <h3>&#x1F3C6; Ranking</h3>
+      <div class="lb-header-line"><h3>&#x1F3C6; Ranking</h3>
       <div id="lbModeLabel" style="color:rgba(255,255,255,0.7);font-size:0.62rem;font-family:Arial;text-align:center;margin-top:-4px;margin-bottom:4px;flex-shrink:0;letter-spacing:0.5px;"></div>
 
       <div class="lb-rows" id="lbList"></div>
@@ -1083,7 +1089,7 @@ function renderLeaderboard() {
   if (currentMode) scores = scores.filter(s => s.mode === currentMode);
   // Primary: most pairs desc. Secondary: fewest moves. Tertiary: least time.
   scores.sort((a,b) => b.pairs-a.pairs || a.moves-b.moves || a.time-b.time);
-  scores = scores.slice(0,10);
+  scores = scores.slice(0, window.innerWidth <= 768 ? 12 : 10);
 
   const list = document.getElementById('lbList');
   if (!scores.length) {
