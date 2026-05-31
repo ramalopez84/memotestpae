@@ -72,11 +72,11 @@ body {
 }
 .header-right {
   flex: 1; display: flex; flex-direction: column;
-  justify-content: space-between; min-width: 0;
+  justify-content: flex-start; gap: 8px; min-width: 0;
   padding-bottom: 4px;
 }
 .header-top {
-  display: flex; align-items: center; padding-top: 0;
+  display: flex; align-items: center; padding-top: 0; gap: 6px; width: 100%;
 }
 .header-bottom { display: flex; align-items: center; gap: 8px; }
 .header-logo-wrap {
@@ -232,6 +232,33 @@ body {
 .card-front svg { width: 100%; height: 100%; border-radius: 8px; }
 ::backdrop { background: #004a8f; }
 
+/* ── BOTÓN ROTAR FLOTANTE ── */
+#rotBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  border: 2px solid rgba(255,255,255,0.4);
+  color: white;
+  font-size: 1.4rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: background 0.2s, transform 0.3s;
+  backdrop-filter: blur(4px);
+  padding: 0;
+  line-height: 1;
+}
+#rotBtn:hover { background: rgba(255,255,255,0.35); }
+body.rot90  #rotBtn { transform: rotate(-90deg); }
+body.rot180 #rotBtn { transform: rotate(-180deg); }
+body.rot270 #rotBtn { transform: rotate(-270deg); }
+
 .streak-toast {
   position: fixed;
   bottom: -80px;
@@ -277,116 +304,119 @@ body.rot270 {
   left: calc((100vw - 100vh) / 2);
   overflow: hidden;
 }
-/* When rotated, apply same layout as mobile (now "portrait" logically) */
-body.rot90 .main {
-  flex-direction: column-reverse;
-  gap: 5px;
+/* ── ROTATED 90° / 270°: portrait layout ── */
+body.rot90 .main, body.rot270 .main {
+  flex-direction: row;
+  gap: 8px;
 }
-body.rot90 .sidebar-left {
+/* Ranking: full-height left column */
+body.rot90 .sidebar-left, body.rot270 .sidebar-left {
   width: 160px !important;
-  flex-direction: column !important;
-  align-items: stretch;
-  gap: 4px;
-  margin-top: 0;
+  flex-direction: column;
   flex-shrink: 0;
-  max-height: none !important;
-  overflow: visible;
+  align-self: stretch;
+  order: 0;
 }
-body.rot90 .leaderboard {
-  flex: 1; padding: 8px 8px 4px; border-radius: 10px;
+body.rot90 .leaderboard, body.rot270 .leaderboard {
+  flex: 1;
+  padding: 8px 8px 5px;
+  border-radius: 10px;
+  overflow-y: auto;
 }
-body.rot90 .leaderboard h3 { font-size: 0.7rem; margin-bottom: 3px; }
-body.rot90 #lbModeLabel { font-size: 0.6rem; margin-bottom: 4px; display: block; }
-body.rot90 #lbList {
-  display: flex; flex-direction: column; gap: 4px;
-  max-height: none; overflow: visible;
+body.rot90 .lb-header-line, body.rot270 .lb-header-line {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;
 }
-body.rot90 .lb-row {
-  display: flex; gap: 3px; align-items: center;
-  font-size: 0.62rem; white-space: nowrap;
-  flex-wrap: nowrap;
+body.rot90 .lb-header-line h3, body.rot270 .lb-header-line h3 { font-size: 0.65rem; margin-bottom: 0; }
+body.rot90 .lb-header-line #lbModeLabel, body.rot270 .lb-header-line #lbModeLabel { font-size: 0.58rem; margin: 0; }
+body.rot90 #lbList, body.rot270 #lbList { display: flex; flex-direction: column; gap: 4px; }
+body.rot90 .lb-row, body.rot270 .lb-row { display: flex; gap: 3px; align-items: center; font-size: 0.62rem; white-space: nowrap; }
+body.rot90 .lb-rank, body.rot270 .lb-rank { font-size: 0.75rem; flex-shrink: 0; }
+body.rot90 .lb-name, body.rot270 .lb-name { font-size: 0.62rem; flex: 1; overflow: hidden; text-overflow: ellipsis; }
+body.rot90 .lb-val, body.rot270 .lb-val { font-size: 0.58rem; flex-shrink: 0; }
+body.rot90 #lbNote, body.rot270 #lbNote { display: block !important; font-size: 0.5rem; color: rgba(255,255,255,0.5); margin-top: 4px; text-align: center; line-height: 1.3; }
+
+/* Game area: grid + logos */
+body.rot90 .game-area, body.rot270 .game-area {
+  flex: 1;
+  flex-direction: row !important;
+  min-height: 0; min-width: 0;
 }
-body.rot90 .lb-rank { font-size: 0.75rem; flex-shrink: 0; }
-body.rot90 .lb-name { font-size: 0.62rem; flex: 1; overflow: hidden; text-overflow: ellipsis; }
-body.rot90 .lb-val { font-size: 0.58rem; flex-shrink: 0; }
-body.rot90 #lbNote { 
-  font-size: 0.5rem; 
-  color: rgba(255,255,255,0.5);
-  margin-top: 4px;
-  line-height: 1.3;
-  text-align: center;
-  padding: 0 2px;
+body.rot90 .center, body.rot270 .center {
+  flex: 1; min-height: 0; min-width: 0;
 }
-body.rot90 .sidebar-right {
+body.rot90 .grid-wrap, body.rot270 .grid-wrap {
+  flex: 1; min-height: 0; min-width: 0;
+  overflow: hidden; display: flex; align-items: center; justify-content: center;
+}
+/* Logos: vertical column to the right of grid, centered */
+body.rot90 .sidebar-right, body.rot270 .sidebar-right {
   width: 44px !important;
   flex-direction: column !important;
   justify-content: center;
-  gap: 4px;
-  flex-shrink: 0;
-  max-height: none !important;
-  overflow-y: auto;
-  padding: 0 2px;
+  gap: 4px; flex-shrink: 0;
+  overflow-y: auto; padding: 2px 0; align-items: center;
 }
-body.rot90 .side-card {
-  width: 38px !important;
-  height: 38px !important;
-  border-radius: 5px;
-  flex-shrink: 0;
+body.rot90 .side-card, body.rot270 .side-card {
+  width: 38px !important; height: 38px !important; border-radius: 6px; flex-shrink: 0;
 }
-body.rot90 .grid-wrap {
-  flex: 1; min-height: 0; min-width: 0;
-}
-body.rot90 .header {
-  padding: 4px 10px; gap: 6px; flex-shrink: 0;
-}
-body.rot90 .header-stats { gap: 5px; flex-wrap: nowrap; }
-body.rot90 .stat { font-size: 0.62rem; padding: 2px 5px; }
-body.rot90 #modeBadge { font-size: 0.62rem; }
-body.rot90 .hbtn { font-size: 0.62rem; padding: 4px 8px; }
-body.rot90 .header-logo-img-wrap img { height: 36px; }
-body.rot90 .header-memotest { font-size: 0.52rem; padding: 1px 6px; }
+/* Header compact */
+body.rot90 .header, body.rot270 .header { padding: 4px 10px; gap: 6px; }
+body.rot90 .stat, body.rot270 .stat { font-size: 0.65rem; padding: 2px 6px; }
+body.rot90 #modeBadge, body.rot270 #modeBadge { font-size: 0.65rem; }
+body.rot90 .hbtn, body.rot270 .hbtn { font-size: 0.65rem; padding: 4px 9px; }
+body.rot90 .header-memotest, body.rot270 .header-memotest { font-size: 0.5rem !important; }
+body.rot90 .header-logo-img-wrap img, body.rot270 .header-logo-img-wrap img { height: 36px !important; }
+body.rot90 .header-logo-img-wrap, body.rot270 .header-logo-img-wrap { padding: 4px 6px !important; }
 
-/* ══════════════════════════════════════
-   MOBILE LAYOUT (< 768px)
-══════════════════════════════════════ */
+/* fs-stack-mobile hidden in rotated desktop */
+/* rotated: no fs-stack-mobile */
+
+/* game-area: desktop = transparent flex row passthrough */
+.game-area {
+  flex: 1; display: flex; flex-direction: row; min-height: 0; min-width: 0; gap: 10px;
+}
+/* Desktop: fs buttons normal flow in header-bottom */
+#fsBtn, #resetBtn { position: static; width: auto; height: auto; }
+
 @media (max-width: 768px) {
 
   html, body { height: 100%; overflow: hidden; }
   body { display: flex; flex-direction: column; overflow: hidden; }
 
   /* ── HEADER ── */
-  .header { padding: 4px 8px; gap: 5px; flex-shrink: 0; align-items: flex-start; flex-wrap: nowrap; }
+  .header { padding: 4px 8px; gap: 5px; flex-shrink: 0; align-items: flex-start; flex-wrap: nowrap; position: relative; }
   .header-logo-wrap { flex-shrink: 0; padding: 4px 2px !important; border-radius: 8px !important; min-width: 0 !important; align-self: center; gap: 2px !important; }
-  .header-logo-img-wrap { padding: 3px 4px 0px !important; }
-  .header-logo-img-wrap img { height: 34px !important; }
   .header-logo-img-wrap { padding: 12px 2px 4px !important; }
+  .header-logo-img-wrap img { height: 34px !important; }
   .header-memotest { font-size: 0.42rem !important; padding: 2px 6px !important; margin-top: 2px !important; letter-spacing: 1px !important; font-weight: 900 !important; }
-  .header-right { flex: 1; flex-direction: column !important; gap: 3px; min-width: 0; padding-bottom: 0 !important; justify-content: flex-start; }
+  .header-right { flex: 1; flex-direction: column !important; gap: 8px; min-width: 0; padding-bottom: 0 !important; justify-content: flex-start; }
   .header-top { display: flex !important; align-items: center; gap: 5px; }
-
   #modeBadge, #newGameBtn { font-size: 0.58rem !important; white-space: nowrap; background: rgba(255,255,255,0.22) !important; border-radius: 0 0 10px 10px !important; border: 1px solid rgba(255,255,255,0.38) !important; }
-  .header-bottom { display: flex !important; align-items: center; gap: 3px; flex-wrap: nowrap; margin-top: 0; }
-  .fs-stack-mobile { display: flex; flex-direction: column; gap: 3px; position: absolute; top: 4px; right: 8px; }
-  .fs-stack-mobile .hbtn.fs { width: 30px !important; height: 30px !important; padding: 0 !important; display: flex !important; align-items: center; justify-content: center; font-size: 0.72rem !important; flex-shrink: 0; }
-  .header-bottom .hbtn.fs { display: none !important; }
+  .header-bottom { display: flex !important; align-items: center; gap: 3px; flex-wrap: nowrap; }
   .stat { font-size: 0.56rem !important; padding: 2px 4px !important; font-weight: 700 !important; }
-  .spacer { flex: 1; min-width: 2px; }
-  .hbtn.fs { padding: 3px 6px !important; font-size: 0.7rem !important; flex-shrink: 0; }
+  .spacer { display: none !important; }
+  .hbtn.fs { padding: 3px 5px !important; font-size: 0.7rem !important; flex-shrink: 0; }
+  .header-bottom .hbtn.fs { display: none !important; }
 
-  /* ── MAIN: column — game-area arriba, ranking abajo ── */
+  /* fs-stack absolute top-right */
+  /* fs buttons absolute top-right on mobile */
+  #fsBtn { position: absolute !important; top: 4px; right: 8px; width: 30px !important; height: 30px !important; padding: 0 !important; display: flex !important; align-items: center; justify-content: center; font-size: 0.72rem !important; }
+  #resetBtn { position: absolute !important; top: 38px; right: 8px; width: 30px !important; height: 30px !important; padding: 0 !important; display: flex !important; align-items: center; justify-content: center; font-size: 0.72rem !important; }
+
+  /* ── MAIN ── */
   .main { flex-direction: column; gap: 4px; flex: 1; min-height: 0; overflow: hidden; padding: 0 6px 6px; }
 
-  /* ── GAME AREA: grid + logos en fila ── */
+  /* ── GAME AREA ── */
   .game-area { flex: 1; flex-direction: row !important; min-height: 0; min-width: 0; gap: 4px; }
   .center { flex: 1; min-height: 0; min-width: 0; }
   .grid-wrap { flex: 1; min-height: 0; min-width: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; }
   .grid { overflow: visible; }
 
-  /* LOGOS: columna vertical a la derecha */
+  /* LOGOS vertical right */
   .sidebar-right { width: 42px !important; flex-direction: column !important; justify-content: center; gap: 4px; flex-shrink: 0; overflow-y: auto; padding: 2px 0; align-items: center; }
   .side-card { width: 36px !important; height: 36px !important; border-radius: 6px; flex-shrink: 0; }
 
-  /* ── RANKING: abajo de todo ── */
+  /* ── RANKING: abajo ── */
   .sidebar-left { width: 100% !important; flex-direction: column; margin-top: 0; flex-shrink: 0; order: 2; }
   .game-area { order: 1; }
   .leaderboard { width: 100%; padding: 6px 8px 5px; border-radius: 8px; box-sizing: border-box; max-height: 150px; overflow-y: auto; }
@@ -405,113 +435,14 @@ body.rot90 .header-memotest { font-size: 0.52rem; padding: 1px 6px; }
 
   /* MISC */
   .modal-box { padding: 20px 16px; gap: 10px; max-width: 92vw; }
-  .mode-info h4 { font-family: "Arial Black", Arial, sans-serif !important; font-weight: 900 !important; font-size: 0.88rem !important; }
-  .mode-info p { font-family: Arial, sans-serif !important; }
-  h2 { font-family: "Arial Black", Arial, sans-serif !important; font-weight: 900 !important; }
   .modal-logo { height: 52px; }
   .modal-title { font-size: 1rem; }
   .modal-btn { font-size: 0.8rem; padding: 8px 16px; }
+  .mode-info h4 { font-family: "Arial Black", Arial, sans-serif !important; font-weight: 900 !important; font-size: 0.88rem !important; }
+  .mode-info p { font-family: Arial, sans-serif !important; }
+  h2 { font-family: "Arial Black", Arial, sans-serif !important; font-weight: 900 !important; }
   .streak-toast { font-size: 0.8rem; padding: 10px 16px; white-space: normal; text-align: center; max-width: 90vw; }
   #rotBtn { bottom: 80px !important; right: 12px !important; width: 40px !important; height: 40px !important; font-size: 1.1rem !important; }
-}
-
-body.rot270 .main {
-  flex-direction: column-reverse;
-  gap: 5px;
-}
-body.rot270 .sidebar-left {
-  width: 160px !important;
-  flex-direction: column !important;
-  align-items: stretch;
-  gap: 4px;
-  margin-top: 0;
-  flex-shrink: 0;
-  max-height: none !important;
-  overflow: visible;
-}
-body.rot270 .leaderboard {
-  flex: 1; padding: 8px 8px 4px; border-radius: 10px;
-}
-body.rot270 .leaderboard h3 { font-size: 0.7rem; margin-bottom: 3px; }
-body.rot270 .lb-row {
-  display: flex; gap: 3px; align-items: center;
-  font-size: 0.62rem; white-space: nowrap;
-  flex-wrap: nowrap;
-}
-body.rot270 .lb-rank { font-size: 0.75rem; flex-shrink: 0; }
-body.rot270 .lb-name { font-size: 0.62rem; flex: 1; overflow: hidden; text-overflow: ellipsis; }
-body.rot270 .lb-val { font-size: 0.58rem; flex-shrink: 0; }
-body.rot270 .sidebar-right {
-  width: 44px !important;
-  flex-direction: column !important;
-  justify-content: center;
-  gap: 4px;
-  flex-shrink: 0;
-  max-height: none !important;
-  overflow-y: auto;
-  padding: 0 2px;
-}
-body.rot270 .side-card {
-  width: 38px !important;
-  height: 38px !important;
-  border-radius: 5px;
-  flex-shrink: 0;
-}
-body.rot270 .grid-wrap {
-  flex: 1; min-height: 0; min-width: 0;
-}
-body.rot270 .header {
-  padding: 4px 10px; gap: 6px; flex-shrink: 0;
-}
-body.rot270 .header-stats { gap: 5px; flex-wrap: nowrap; }
-body.rot270 .stat { font-size: 0.62rem; padding: 2px 5px; }
-body.rot270 .hbtn { font-size: 0.62rem; padding: 4px 8px; }
-body.rot270 .header-logo-img-wrap img { height: 36px; }
-body.rot270 .header-memotest { font-size: 0.52rem; padding: 1px 6px; }
-
-/* ── BOTÓN ROTAR FLOTANTE ── */
-#rotBtn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.2);
-  border: 2px solid rgba(255,255,255,0.4);
-  color: white;
-  font-size: 1.4rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  transition: background 0.2s, transform 0.3s;
-  backdrop-filter: blur(4px);
-  padding: 0;
-  line-height: 1;
-}
-#rotBtn:hover { background: rgba(255,255,255,0.35); }
-/* Contrarrota el botón según la rotación del body para que siempre quede derecho */
-body.rot90  #rotBtn { transform: rotate(-90deg); }
-body.rot180 #rotBtn { transform: rotate(-180deg); }
-body.rot270 #rotBtn { transform: rotate(-270deg); }
-
-body.rot90 .center, body.rot270 .center {
-  flex: 1; display: flex; flex-direction: row; min-height: 0; min-width: 0; gap: 4px;
-}
-body.rot90 .sidebar-right, body.rot270 .sidebar-right {
-  width: 42px !important; flex-direction: column !important;
-  justify-content: flex-start; gap: 4px; flex-shrink: 0;
-  overflow-y: auto; padding: 2px 0; align-items: center;
-}
-body.rot90 .side-card, body.rot270 .side-card {
-  width: 36px !important; height: 36px !important; border-radius: 6px; flex-shrink: 0;
-}
-
-/* game-area: desktop = transparent flex row passthrough */
-.game-area {
-  flex: 1; display: flex; flex-direction: row; min-height: 0; min-width: 0; gap: 10px;
 }
 </style>
 </head>
@@ -588,6 +519,9 @@ body.rot90 .side-card, body.rot270 .side-card {
     <div class="header-top">
       <span class="mode-badge" id="modeBadge" onclick="askNewGame()" style="cursor:pointer;" title="Cambiar dificultad">—</span>
       <span class="mode-badge" onclick="askNewGame()" id="newGameBtn" style="cursor:pointer;"><span style="font-size:0.75em;line-height:1;">&#x1F3B2;</span>&nbsp;Nueva Partida</span>
+      <div class="spacer"></div>
+      <button class="hbtn fs" onclick="toggleFullscreen()" id="fsBtn" title="Pantalla completa">&#x26F6;</button>
+      <button class="hbtn fs" onclick="askFullReset()" id="resetBtn" title="Reiniciar todo">&#x1F504;</button>
     </div>
     <div class="header-bottom">
       <div class="stat">&#x23F1; <span id="timer">0:00</span></div>
@@ -595,10 +529,7 @@ body.rot90 .side-card, body.rot270 .side-card {
       <div class="stat">Pares: <span id="pairs">0</span>/<span id="totalPairs">—</span></div>
     </div>
   </div>
-  <div class="fs-stack-mobile">
-    <button class="hbtn fs" onclick="toggleFullscreen()" id="fsBtn" title="Pantalla completa">&#x26F6;</button>
-    <button class="hbtn fs" onclick="askFullReset()" id="resetBtn" title="Reiniciar todo">&#x1F504;</button>
-  </div>
+
 </div>
 
 <div class="main">
