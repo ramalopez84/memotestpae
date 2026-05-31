@@ -311,7 +311,6 @@ body.rot90 .lb-rank { font-size: 0.75rem; flex-shrink: 0; }
 body.rot90 .lb-name { font-size: 0.62rem; flex: 1; overflow: hidden; text-overflow: ellipsis; }
 body.rot90 .lb-val { font-size: 0.58rem; flex-shrink: 0; }
 body.rotated #lbNote { 
-  display: block !important; 
   font-size: 0.5rem; 
   color: rgba(255,255,255,0.5);
   margin-top: 4px;
@@ -399,14 +398,9 @@ body.rot90 .header-memotest-bar { font-size: 0.52rem; padding: 1px 6px; }
     margin-top: 0; flex-shrink: 0;
   }
   .leaderboard { width: 100%; padding: 6px 8px 5px; border-radius: 8px; box-sizing: border-box; }
-  /* Título + modo en una sola línea */
-  .leaderboard h3 { font-size: 0.65rem; margin-bottom: 0; display: inline; }
-  #lbModeLabel {
-    font-size: 0.6rem; display: inline !important;
-    margin-left: 6px; margin-bottom: 0;
-    vertical-align: middle;
-  }
   .lb-header-line { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; flex-wrap: wrap; }
+  .lb-header-line h3 { font-size: 0.65rem; margin-bottom: 0; }
+  .lb-header-line #lbModeLabel { font-size: 0.6rem; margin: 0; }
   #lbList {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1168,7 +1162,9 @@ function initGame(cfg) {
   const portraitCols = {easy:3, medium:4, hard:5};
   const mCols = isPortrait ? (portraitCols[currentMode] || cfg.cols) : cfg.cols;
   grid.style.gridTemplateColumns = `repeat(${mCols}, 1fr)`;
-  grid.style.gridTemplateRows    = `repeat(${cfg.rows}, 1fr)`;
+  const portraitRows = {easy:4, medium:5, hard:8};
+  const mRows = isPortrait ? (portraitRows[currentMode] || cfg.rows) : cfg.rows;
+  grid.style.gridTemplateRows    = `repeat(${mRows}, 1fr)`;
 
   // Card size: fixed based on available space
   // We use CSS to fill the grid-wrap, and let the grid expand
@@ -1196,7 +1192,7 @@ function initGame(cfg) {
   });
 
   // Size cards after render
-  requestAnimationFrame(() => sizeCards(cfg));
+  requestAnimationFrame(() => requestAnimationFrame(() => sizeCards(cfg)));
   startTimer();
 }
 
